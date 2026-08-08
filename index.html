@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clarisse's Portfolio</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        body {
+            background-color: #FAF8F4;
+            color: #2C1A0E;
+        }
+
+        /* --- SIDEBAR STYLING --- */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 80px;
+            background-color: #2C1A0E;
+            padding: 0.4rem 0.8rem;
+            transition: all 0.4s ease;
+            z-index: 100;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .sidebar:hover {
+            width: 250px;
+        }
+
+        .top {
+            position: relative;
+            color: white;
+            padding: 10px 5px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+        }
+
+        .top .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 20px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .top .logo i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .sidebar:hover .top .logo {
+            opacity: 1;
+            padding-right: 15px; 
+        }
+
+        .sidebar #btn {
+            position: absolute;
+            color: white;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+        }
+
+        .sidebar:hover #btn {
+            right: 15px;
+            left: auto;
+            transform: translateY(-50%);
+        }
+
+        .user {
+            margin-top: 1rem;
+        }
+
+        .sidebar ul {
+            width: 100%;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            list-style: none;
+            height: 50px;
+            width: 100%;
+            margin: 0.5rem 0;
+            line-height: 50px;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            padding: 0 10px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #B8A898;
+            color: #FAF8F4;
+        }
+
+        .sidebar ul li a i {
+            min-width: 50px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        .sidebar .nav-item {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar:hover .nav-item {
+            opacity: 1;
+        }
+
+        /* --- MAIN CONTENT & TAB SWITCHING --- */
+        .main-content {
+            position: relative;
+            min-height: 100vh;
+            background-color: #FAF8F4;
+            margin-left: 80px;
+            width: calc(100% - 80px);
+        }
+
+        .tab-content {
+            display: none;
+            width: 100%;
+            min-height: 100vh;
+            background-color: #FAF8F4;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* Target Default Home view */
+        #home:not(:target) {
+            display: block;
+        }
+
+        .tab-content:target {
+            display: block !important;
+        }
+
+        :has(.tab-content:target) #home:not(:target) {
+            display: none !important;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- STANDARD PAGE CONTAINER --- */
+        .page-container {
+            padding: 40px 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .page-container h1 {
+            font-size: 2.8rem;
+            color: #2C1A0E;
+            margin-bottom: 15px;
+        }
+
+        .page-container p {
+            font-size: 1.05rem;
+            color: #5c412e;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* --- BRAND PILLARS LAYOUT --- */
+        .intro-quote {
+            background-color: #EFECE6;
+            border-left: 4px solid #6b441d;
+            padding: 15px 20px;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            font-style: italic;
+            font-size: 1.05rem;
+            color: #2C1A0E;
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .pillar-card {
+            background-color: #FFFFFF;
+            border: 1px solid #B8A898;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .pillar-card h2 {
+            color: #2C1A0E;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #6b441d;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pillar-card p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #4A3525;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
+        .pillar-card ul {
+            margin-left: 18px;
+            margin-bottom: 15px;
+            font-size: 0.92rem;
+            color: #2C1A0E;
+        }
+
+        .pillar-card ul li {
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .pillar-footer {
+            background-color: #FAF8F4;
+            border-top: 1px dashed #B8A898;
+            padding-top: 10px;
+            margin-top: auto;
+            font-size: 0.9rem;
+            font-style: italic;
+            color: #6b441d;
+        }
+
+        .badge-formula {
+            display: inline-block;
+            background-color: #2C1A0E;
+            color: #FAF8F4;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin: 8px 0;
+        }
+
+        /* --- HOME TAB SPECIFIC STYLES --- */
+        .hero-container {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            overflow: hidden;
+        }
+
+        .hero-container .home-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            filter: brightness(0.65);
+        }
+
+        .overlay-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 90%;
+            max-width: 800px;
+            z-index: 2;
+        }
+
+        .overlay-text h2 {
+            color: #FDFBF7;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .overlay-text h1 {
+            color: white;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .overlay-text p {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .wordedbox {
+            background-color: #B8A898;
+            padding: 25px 15px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .wordedbox h2 {
+            color: #FAF8F4;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+
+        .wordedbox h1 {
+            color: #2C1A0E;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .about-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            padding: 20px 40px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-text h1 {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            color: #2C1A0E;
+            margin-bottom: 20px;
+        }
+
+        .food-img-container img {
+            width: 100%;
+            height: 450px;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary, .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #6b441d;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #523315;
+        }
+
+        .btn-secondary {
+            border: 2px solid #6b441d;
+            color: #6b441d;
+            background-color: transparent;
+        }
+
+        .btn-secondary:hover {
+            background-color: #6b441d;
+            color: white;
+        }
+
+        /* --- ABOUT TAB STYLING --- */
+        .about-container {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+
+        .about-container p {
+            flex: 1;
+        }
+
+        .myphoto img {
+            width: 320px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- PROJECTS CARD & IN-PAGE VIEW SYSTEM --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 25px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid #B8A898;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .project-card-body {
+            padding: 20px;
+        }
+
+        .project-card-body h3 {
+            font-size: 1.3rem;
+            color: #2C1A0E;
+            margin-bottom: 10px;
+        }
+
+        .project-card-body p {
+            font-size: 0.95rem;
+            color: #5c412e;
+            margin-bottom: 15px;
+        }
+
+        .click-hint {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: #6b441d;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* BACK BUTTON */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #6b441d;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            padding: 8px 14px;
+            border: 1px solid #B8A898;
+            border-radius: 6px;
+            background-color: white;
+            transition: all 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #6b441d;
+            color: white;
+        }
+
+        .project-step {
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #EFECE6;
+        }
+
+        .project-step img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        /* --- GALLERY GRID LAYOUT --- */
+        .gallery-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .gallery-media {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .gallery-media iframe {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .gallery-photos {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .gallery-photos img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        /* --- CONTACT PAGE STYLES --- */
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .contact-form-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #2C1A0E;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #B8A898;
+            border-radius: 6px;
+            background-color: #ffffff;
+            font-size: 0.95rem;
+            color: #2C1A0E;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #6b441d;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 130px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-details {
+            background-color: #6b441d;
+            padding: 25px;
+            border-radius: 8px;
+            color: #FAF8F4;
+        }
+
+        .info-details h3 {
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+            color: #FAF8F4;
+        }
+
+        .info-details p {
+            color: #FAF8F4 !important;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 900px) {
+            .about-section,
+            .about-container,
+            .contact-layout,
+            .gallery-photos {
+                grid-template-columns: 1fr;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR NAVIGATION -->
+    <div class="sidebar">
+        <div class="top">
+            <div class="logo">
+                <i class="bx bx-restaurant"></i>
+                <span>Clarisse Portfolio</span>
+            </div>
+            <i class="bx bx-food-menu" id="btn"></i>
+        </div>
+
+        <div class="user">
+            <ul>
+                <li><a href="#home"><i class="bx bx-home"></i><span class="nav-item">Home</span></a></li>
+                <li><a href="#about"><i class="bx bx-smile"></i><span class="nav-item">About Me</span></a></li>
+                <li><a href="#brand"><i class="bx bx-layer"></i><span class="nav-item">Brand Pillars</span></a></li>
+                <li><a href="#tep"><i class="bx bx-book-open"></i><span class="nav-item">Internship Journey</span></a></li>
+                <li><a href="https://www.linkedin.com/in/clarisse-s-3a6600257" target="_blank"><i class="bx bxl-linkedin"></i><span class="nav-item">LinkedIn</span></a></li>
+                <li><a href="#projects"><i class="bx bx-folder-open"></i><span class="nav-item">Projects</span></a></li>
+                <li><a href="#gallery"><i class="bx bx-photo-album"></i><span class="nav-item">Gallery</span></a></li>
+                <li><a href="#contact"><i class="bx bxs-contact"></i><span class="nav-item">Contact</span></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <div class="main-content">
+
+        <!-- 1. HOME TAB -->
+        <section id="home" class="tab-content">
+            <div class="hero-container">
+                <img src="Home Photo.png" class="home-img" alt="Clarisse's Portfolio Hero">
+                <div class="overlay-text">
+                    <h2>Internship Portfolio · 2026</h2>
+                    <h1>Hello, I'm Clarisse</h1>
+                    <p>Where hospitality meets creativity and continuous learning.</p>
+                </div>
+            </div>
+
+            <div class="stats-container">
+                <div class="wordedbox">
+                    <h2>20/42</h2>
+                    <h1>Weeks TEP</h1>
+                </div>
+                <div class="wordedbox">
+                    <h2>2</h2>
+                    <h1>Companies</h1>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <div class="about-text">
+                    <h1>Hi there! I'm Clarisse</h1>
+                    <p>Currently, I am in my Final Year, taking my full-time diploma in Food & Beverage Business. This year, we are diving head first into real-life experience via internship.</p>
+                    <p>In this first of two semesters, I have moved from full classroom-based learning to gain hands-on experience in cafe operations both front and back of house, while serving as a capable waitress at my internship outlet.</p>
+                    <p>I hope to make my way into the HR side of F&B, and one day, start a home-based cafe.</p>
+                    <div class="cta-buttons">
+                        <a href="#about" class="btn-primary">
+                            <i class="bx bx-chevron-right"></i> Read my story
+                        </a>
+                        <a href="https://www.linkedin.com/in/clarisse-s-3a6600257" target="_blank" class="btn-secondary">
+                            <i class="bx bxl-linkedin"></i> LinkedIn
+                        </a>
+                    </div>
+                </div>
+
+                <div class="food-img-container">
+                    <img src="clarisse_homepage.png" alt="Breakfast and Coffee">
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. ABOUT ME TAB -->
+        <section id="about" class="tab-content">
+            <div class="page-container">
+                <h1>About Me</h1>
+                <div class="about-container">
+                    <p>
+                        Hi! My name is Clarisse and I'm in my Third Year of F&B Business in the School of Business Management at Nanyang Polytechnic. Currently, I am on this wonderful internship journey under PS.Cafe learning how great hospitality is built through observation, practice, and discipline, and I'd love for you to join me.
+                        <br><br>
+                        I believe the best learning often comes from watching my colleagues in service, observing how they handle their service flow, then adapting and applying improvements daily. I have since gained hands-on exposure to service operations, teamwork, reflective learning, and how communication impacts smooth service flow. On other days, I'm learning to become a better bartender and barista through practice and online guides, honing skills with my professional coffee machine setup and matcha setup at home.
+                        <br><br>
+                        My goal is to use my passion for F&B to inspire others to pursue careers in this field. I hope to step further into this industry and one day set up a home cafe with my mother after she retires. I'm confident I can take on any challenge as I love participating in hands-on projects!
+                    </p>
+                    <div class="myphoto">
+                        <img src="clarisse.png" alt="Clarisse">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. BRAND PILLARS TAB -->
+        <section id="brand" class="tab-content">
+            <div class="page-container">
+                <h1>Brand Pillars</h1>
+                <div class="intro-quote">
+                    My brand is shaped by three core pillars: thoughtful hospitality, reflective growth, and collaborative service. Together, they represent how I approach the F&B industry — with intention, adaptability, and care for both guests and the team behind every service experience.
+                </div>
+                
+                <div class="pillars-grid">
+                    <!-- Pillar 1 -->
+                    <div class="pillar-card">
+                        <div>
+                            <h2><i class="bx bx-heart"></i> Hospitality & Guest Experience</h2>
+                            <p>Hospitality begins with awareness. It is found in the way a guest is welcomed, how their needs are understood, and how each interaction contributes to the overall dining experience.</p>
+                            <p>Through my TEP journey, I have learnt to approach service with attentiveness and empathy. From active listening to clear guest communication, I aim to create an environment where guests feel comfortable, respected, and well cared for.</p>
+                            
+                            <strong style="color:#2C1A0E; display:block; margin-top:10px; margin-bottom:5px;">This pillar reflects my commitment to:</strong>
+                            <ul>
+                                <li>Communicating clearly with guests</li>
+                                <li>Listening actively to prevent mistakes and misunderstandings</li>
+                                <li>Making thoughtful recommendations based on guest needs</li>
+                                <li>Being mindful of dietary requirements and allergens</li>
+                                <li>Practising inclusivity in service</li>
+                                <li>Responding calmly and responsibly during service recovery</li>
+                            </ul>
+                        </div>
+                        <div class="pillar-footer">
+                            Good service is not only about completing tasks efficiently. It is about creating a guest experience that feels considered, warm, and professional.
+                        </div>
+                    </div>
+
+                    <!-- Pillar 2 -->
+                    <div class="pillar-card">
+                        <div>
+                            <h2><i class="bx bx-trending-up"></i> Reflective Growth</h2>
+                            <p>Growth is built through observation, reflection, and action. During my TEP journey, I have learnt that improvement comes from being open to feedback, asking the right questions, and applying what I learn in real service situations.</p>
+                            
+                            <p><strong>My learning approach is guided by:</strong></p>
+                            <div class="badge-formula">Observe → Adapt → Apply</div>
+                            <p style="font-size:0.9rem;">I observe how tasks are carried out, adapt to different service situations, and apply feedback to improve my confidence and performance over time.</p>
+
+                            <strong style="color:#2C1A0E; display:block; margin-top:10px; margin-bottom:5px;">This pillar reflects my commitment to:</strong>
+                            <ul>
+                                <li>Seeking feedback and applying it</li>
+                                <li>Asking questions when I am unsure</li>
+                                <li>Setting small weekly goals to improve</li>
+                                <li>Building confidence through consistent practice</li>
+                                <li>Learning from mistakes instead of avoiding them</li>
+                                <li>Strengthening my professional language and service awareness</li>
+                            </ul>
+                            <p style="font-size:0.88rem; background:#FAF8F4; padding:8px; border-radius:4px;"><strong>Growth Areas:</strong> Tray balancing, guest communication, service confidence, and interacting with diverse customer profiles (tourists & international guests).</p>
+                        </div>
+                        <div class="pillar-footer">
+                            Growth is not about being perfect immediately. It is about being intentional, coachable, and willing to improve with every experience. (♡ˊ͈ ꒳ ˋ͈) [ㅎ・ㅎ]
+                        </div>
+                    </div>
+
+                    <!-- Pillar 3 -->
+                    <div class="pillar-card">
+                        <div>
+                            <h2><i class="bx bx-group"></i> Collaborative Service</h2>
+                            <p>Behind every smooth guest experience is a team that communicates, supports, and adapts together. In F&B, teamwork is not only about helping when asked — it is about staying aware of what the team needs and stepping in where possible.</p>
+                            <p>Through my TEP journey, I have learnt the importance of being reliable, proactive, and calm during service. Whether updating product availability, assisting during rushes, or helping with opening/closing, I aim to contribute to an organized service flow.</p>
+                            
+                            <strong style="color:#2C1A0E; display:block; margin-top:10px; margin-bottom:5px;">This pillar reflects my commitment to:</strong>
+                            <ul>
+                                <li>Communicating updates clearly during service</li>
+                                <li>Supporting teammates during busy periods</li>
+                                <li>Helping with handovers, confirmations, and product availability updates</li>
+                                <li>Taking initiative when I am free</li>
+                                <li>Maintaining a calm and positive attitude</li>
+                                <li>Assisting with opening and closing duties</li>
+                                <li>Contributing to consistent service standards</li>
+                            </ul>
+                        </div>
+                        <div class="pillar-footer">
+                            Collaborative service means understanding that every small action matters. A clear update, a quick helping hand, or a calm response makes service seamless.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. TEP JOURNEY TAB -->
+        <section id="tep" class="tab-content">
+            <div class="page-container">
+                <h1>Internship Journey</h1>
+                <p>My Teaching Enterprise Project (TEP) journey has been a meaningful opportunity to experience the pace, standards. and the amount of teamwork required in the F&B industry. I used to regard waiters and waitresses as having an easy life, quite the contrary. Through service operations, guest interactions, and daily responsibilities, I have developed a deeper understanding and respect to these individuals and this environment.</p>
+                <p>At the start, instead of rushing to be the very best, I focused on observing how my team worked. Where they stood in the restaurant to have a hawk's eye view of the floor, how they handled guests, how they held trays while balancing heavy dishes and breakable bottles, and how service operations was carried out. This helped me understand that being observant was my first step into this industry to become more confident and capable. </p>
+                <p>
+This journey has allowed me to strengthen my 3 key areas. In hospitality, reflective growth and collaborative learning, and shaped the kind of FhB professional I aspire to be. Someone who is attentive, adaptavle, and willing to keep learning.</p>
+                <hr style="border: none; height: 1px; background-color: #B8A898; margin: 25px 0;">
+                <h3 style="margin-bottom: 10px;">Learning The Ropes</h3>
+                <p>For my first 3 weeks, I was kept as the food runner/float. As my outlet had a lack of staffs, I had to learn the ropes quickly. I gained hands-on experience in front-of-house operations and Learned what it takes to deliver smooth, consistent service. Unlike at my previous F&B endeavours, my key responsibilities here included seating guests accurately by table number, guiding walk-ins through the dining flow, and maintaining service standards from start to finish. Beyond service, I learned the full order-to-payment workflow, assisted with food running, and handled mise en place/stocking (including FIFO practices).</p>
+                <hr style="border: none; height: 1px; background-color: #B8A898; margin: 25px 0;">
+                <h3 style="margin-bottom: 10px;">Finding my Rhythm</h3>
+                <p>Over time, I began to understand that being a food runner was not just about carrying food from the kitchen to the table. It required awareness, speed, accuracy, and communication. I had to ensure that dishes were sent to the correct tables, that guests received their orders promptly, and that any special requests or changes were communicated clearly to the service team. Even small mistakes, such as going to the wrong table or forgetting to check the order details, could affect the guest experience. This taught me the importance of being alert and taking responsibility for every task given to me.
+                </p>
+                <hr style="border: none; height: 1px; background-color: #B8A898; margin: 25px 0;">
+                <h3 style="margin-bottom: 10px;">Adapting Under Pressure</h3>
+                <p>During peak hours, I experienced how intense restaurant service could become. Orders came in continuously, guests were waiting to be seated, food had to be served quickly, and tables needed to be cleared and reset for the next group. At first, I struggled to know what to prioritise because everything felt urgent at the same time. However, I slowly learned to stay calm, listen carefully to instructions, and focus on one task at a time. I also learned to check table numbers properly before serving food, communicate with others when I needed help, and move with urgency without panicking. This helped me become more confident in handling busy service periods and taught me the importance of staying composed in a fast-paced F&B environment.</p>
+                <hr style="border: none; height: 1px; background-color: #B8A898; margin: 25px 0;">
+                <h3 style="margin-bottom: 10px;">Becoming More Attentive</h3>
+                <p>Overtime, I became more comfortable with the restaurant layout, table numbers, menu items, and service procedures. I also became more aware of guest needs, such as noticing when they required assistance, when water needed to be topped up, or signs of guests about to depart and where tables had to be reset quickly for the next guests. These small details helped me understand what it means to be attentive in hospitality. It is not only about completing assigned duties, but also about anticipating needs before being asked.</p>
+        </section>
+
+        <!-- 5. PROJECTS TAB (MAIN LIST VIEW) -->
+        <section id="projects" class="tab-content">
+            <div class="page-container">
+                <h1>Projects</h1>
+
+                <div class="projects-grid">
+                    <!-- Project 1 Thumbnail Card -->
+                    <a href="#project1-view" style="text-decoration: none;">
+                        <div class="project-card">
+                            <img src="proj1.png" alt="Project 1 Preview">
+                            <div class="project-card-body">
+                                <h3>Term 1: Premium Bento Box Set & Crafted Beverage</h3>
+                                <p>R&D and crafting process for a premium bento box featuring 3 Onigiri flavors, Tamagoyaki, Homemade Sambal, and an artisan layered beverage.</p>
+                                <span class="click-hint"><i class="bx bx-right-arrow-alt"></i> View Full Project Details</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#project2-view" style="text-decoration: none;">
+                        <div class="project-card">
+                            <img src="2proj2.png" alt="Project 2 Preview">
+                            <div class="project-card-body">
+                                <h3>Term 2: Conceptualise A Limited-Time Offering Tart for our School's Library Café</h3>
+                                <p>Introducing Kaya Soleil. A nostalgic twist of our traditional kaya toast set, its name 'Soleil' was derived from the French word for 'Sun'.</p>
+                                <span class="click-hint"><i class="bx bx-right-arrow-alt"></i> View Full Project Details</span>
+                            </div>
+                        </div>
+                    <a href="#project3-view" style="text-decoration: none;">
+                        <div class="project-card">
+                            <img src="matcha3.webp" alt="Project 3 Preview">
+                            <div class="project-card-body">
+                                <h3>Exploring Café Craft: Coffee & Matcha</h3>
+                                <p>A personal project documenting my exploration of coffee and matcha drinks through flavour balance, technique, and visual presentation.</p>
+                                <span class="click-hint"><i class="bx bx-right-arrow-alt"></i> View Full Project Details</span>
+                            </div>
+                        </div>  
+                    
+                </div>
+
+
+            </div>
+        </section>
+
+        <!-- 5B. PROJECT 1 DETAILED VIEW (STAYS IN PROJECTS TAB) -->
+        <section id="project1-view" class="tab-content">
+            <div class="page-container">
+                <!-- Back Button using bx bx-chevron-left -->
+                <a href="#projects" class="back-btn">
+                    <i class="bx bx-chevron-left"></i> Back to Projects
+                </a>
+
+                <h1>Term 1: Premium Bento Box Set + Crafted Beverage</h1>
+                <p style="margin-bottom:25px;">Detailed breakdown of product R&D, recipe formulations, and visual development.</p>
+
+                <div class="project-step">
+                    <img src="proj1.png" alt="Bento Box Set">
+                    <p><strong>Concept Overview:</strong> A curated bento box set featuring 3 flavors of Onigiri, Tamagoyaki, Ikan Bilis, Homemade Sambal, Achar, Bread Pudding, accompanied by our signature "Alohaaa" crafted beverage.</p>
+                </div>
+
+                <div class="project-step">
+                    <img src="proj2.png" alt="R&D Beverage Prep">
+                    <p><strong>R&D Phase:</strong> For R&D Day, I was part of the team doing the crafted beverage prep. We had 3 weeks to test out the beverage ideas we had. 
+
+Starting with our first draft. We attempted to make the strawberry puree from scratch. Starting with fresh strawberries being boiled into puree, sparkling water/sprite, and blue pea flower water. The idea was aesthetically pleasing and functioned similar to having a how a dessert  Riesling's sweet yet acidic bubbliness cuts through spiciness and richness, but it did not give of the 'crafted' vibe. </p>
+                </div>
+
+                <div class="project-step">
+                    <img src="proj3.png" alt="First Draft Beverage">
+                    <p><strong>Draft 1 :</strong>   <p> Thinking back on trendy beverage ideas, we wanted something light and airy, yet creamy to match with rich coconut flavours in our onigiris. The idea of having a blue pea cloud was born. Made with whipping cream, a bit of milk for control, and blue pea flower water with some blue dye to bring the colour to a pop, we created our beverage's signature look.</p>
+
+                <div class="project-step">
+                    <img src="proj4.png" alt="Cold Brew Test">
+                   <strong>Draft 2:</strong>
+                </div>
+
+                <div class="project-step">
+                    <img src="proj5.png" alt="Blue Pea Cloud Concept">
+                    <p><strong>Draft3:</strong>In the end, we used bottled strawberry puree as the original fresh strawberry puree was far too lumpy, expensive, not time-efficient, and did not have that pop of colour. We also chose not to line the cup as the puree made the drink as a whole look unrefined.</p>
+                </div>
+
+                <div class="project-step">
+                    <img src="proj6.png" alt="Final Presentation">
+                    <p><strong>Final Recipe Standard:</strong> Selected a clean-finish fruit puree base for smooth consistency and vibrant color contrast, omitting glass lining for a cleaner presentation.</p>
+                </div>
+
+                <a href="#projects" class="back-btn">
+                    <i class="bx bx-chevron-left"></i> Back to Projects
+                </a>
+            </div>
+            
+        </section>
+        <section id="project2-view" class="tab-content">
+            <div class="page-container">
+                <!-- Back Button using bx bx-chevron-left -->
+                <a href="#projects" class="back-btn">
+                    <i class="bx bx-chevron-left"></i> Back to Projects
+                </a>
+
+                <h1>Term 2: Conceptualise A Limited-Time Offering Tart for our School's Library Café</h1>
+                <p style="margin-bottom:25px;">Detailed breakdown of product R&D, recipe formulations, and visual development.</p>
+
+                <div class="project-step">
+                    <img src="2proj1.png" alt="Bento Box Set">
+                    <p><strong>Concept Overview:</strong>Starting with our tart shell, it is then layered with our kaya pandan spread, and a brown butter frangipane layer for the deeper nutty flavour. Thinly sliced pineapple is placed on top like a bright sun before the entire shell is placed into the oven to bake. After the tart has cooled and glazed, caramelized pineapples and toasted coconut shavings were added. </p>
+                </div>
+
+                <div class="project-step">
+                    <img src="2proj2.png" alt="R&D Beverage Prep">
+                    <p><strong>R&D Phase:</strong> For each tart, we priced it at $5.80 (rounded up from $5.77). Per tart, ingredients costs us $2.52, and packaging costs $0.23, giving us a $3.02 profit (52%)</p>
+                </div>
+
+            
+                <a href="#projects" class="back-btn">
+                    <i class="bx bx-chevron-left"></i> Back to Projects
+                </a>
+            </div>
+            
+        </section>
+        <section id="project3-view" class="tab-content">
+            <div class="page-container">
+                <!-- Back Button using bx bx-chevron-left -->
+                <a href="#projects" class="back-btn">
+                    <i class="bx bx-chevron-left"></i> Back to Projects
+                </a>
+
+                <h1>Exploring Café Craft: Coffee & Matcha</h1>
+                <h1>Matcha</h1>
+                <p style="margin-bottom:25px;">Detailed breakdown of product, recipe formulations, and visual development.</p>
+
+                <div class="project-step">
+                    <img src="matcha 1.webp" alt="matcha">
+                >
+                    <p><strong>Concept Overview:</strong> My matcha journey began with curiosity — not just about the drink itself, but about the experience it creates. I was drawn to its calm, earthy flavour, its vibrant green colour, and the quiet ritual behind preparing it. Unlike drinks that feel rushed or overly sweet, matcha felt intentional to me.<br>
+                    It started with a few packet of matcha powder and a matcha whisk my mom gave me as a gift from her work trip to Japan, along with an IKEA wooden bowl </p>
+                    
+                <div class="project-step">
+                    <img src="pancake.webp" alt="matcha">
+                   
+                    <p>Before long, it blossomed into some form of craze in our household. Complete matcha sets and various grades of matcha powder, as well as other beverage components started becoming a thing. I also started playing with using Fresh Milk, Oat Milk, and Soy Milk, and Oat Milk was the best due to its mild nuttiness and richness.
+
+After learning about Cheongs and Shrubs in our 2nd semester in Year 2 about mixology, I wanted to try out more flavours other than strawberries </p>
+                     
+                </div>
+                <div class="project-step">
+                     <img src="matcha4.webp" alt="matcha">
+                    
+                </div>                
+
+                <h1>Coffee</h1>
+                <p>After our 1st semester in Year 2, I gained quite a liking for the art of coffee. Unlike matcha, coffee felt more bold and expressive, with each cup offering a different experience depending on its roast, strength, milk balance, temperature, and preparation style. I became more aware of how small details could change the mood of a cup — from the richness of the espresso and its crema to the creaminess of milk, and the level of sweetness.</p>
+                <div class="project-step">
+                    <img src="image.png (1).png" alt="First Draft Beverage">
+                   
+                </div>
+
+                <div class="project-step">
+                    <img src="cawfee.webp" alt="Cold Brew Test">
+                    <p>
+Traditional coffee making (without an electronic tamper) can change the way the espresso flows. Since I normally use a espresso machine to make my coffee at home, I would need to grind the beans till fine (table salt) to achieve its signature strong and sharp, yet aromatic flavour. Tamping was my biggest issue overall. Tamped too hard and the waterflow resulted in bitter, foul tasting espresso. Tamp without enough strength allowed the water to shoot straight through, making it fast, thin, and watery. Simply putting it. The espresso shot should be flowing like honey.</p>
+                </div>
+
+                <div class="project-step">
+                    <img src="latte.webp" alt="coffee">
+                    <img src="brew.webp" alt="cofee">
+                   
+                </div>
+
+                <a href="#projects" class="back-btn">
+                    <i class="bx bx-chevron-left"></i> Back to Projects
+                </a>
+            </div>
+            
+        </section>
+        
+
+        <!-- 6. GALLERY TAB -->
+        <section id="gallery" class="tab-content">
+            <div class="page-container">
+                <h1>Gallery</h1>
+                <div class="gallery-grid">
+                    <!-- Row 1: Embedded Media -->
+                    <div class="gallery-media">
+                        <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7487888402097274880?compact=1" height="399" frameborder="0" allowfullscreen="" title="Embedded post 1"></iframe>
+                        <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7489409149538295808?compact=1" height="399" frameborder="0" allowfullscreen="" title="Embedded post 2"></iframe>
+                    </div>
+                    <!-- Row 2: Photos -->
+                    <div class="gallery-photos">
+                        <img src="sundae.png" alt="Gallery Image 1">
+                        <img src="food.png" alt="Gallery Image 2">
+                        <img src="waiter.png" alt="Gallery Image 3">
+                        <img src="Home Photo.png" alt="Gallery Image 4">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. CONTACT TAB -->
+        <section id="contact" class="tab-content">
+            <div class="page-container">
+                <h1>Contact</h1>
+                <p>Get in touch with me if you have any questions or would like to connect. I am always open to discussions!</p>
+
+                <div class="contact-layout">
+                    <!-- Contact Form -->
+                    <div class="contact-form-container">
+                        <form action="#" method="POST">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" placeholder="Your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message" placeholder="Type your message here..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary" style="border: none; cursor: pointer; justify-content: center;">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Direct Info -->
+                    <div class="contact-info">
+                        <div class="info-details">
+                            <h3>Direct Contact Details</h3>
+                            <p><strong>Email:</strong> clarissesim1208@gmail.com</p>
+                            <p><strong>Mobile #:</strong> +65 9816 8797</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
